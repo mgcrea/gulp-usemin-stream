@@ -125,10 +125,12 @@ module.exports = function(options) {
             }
 
             files.forEach(function(file) {
-              file.base = htmlFile.base;
-
+              var baseName = path.basename(file.path);
               var extName = path.extname(file.path);
-              var filePath = splits[index][3] || path.basename(file.path);
+              var filePath = splits[index][3] || baseName;
+              if(extName === '.map') {
+                filePath = baseName;
+              }
               file.path = path.relative(rootPath, path.join(rootPath, filePath));
               if (extName === '.js') {
                 html.push('<script src="' + filePath + '"></script>'); // \n
